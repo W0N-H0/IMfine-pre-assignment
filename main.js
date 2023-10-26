@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 예시 데이터 - ID와 값을 포함한 배열
   let data = [
-    { id: 0, value: 100 },
+    { id: 1, value: 100 },
     { id: 2, value: 50 },
   ];
 
@@ -60,13 +60,23 @@ document.addEventListener("DOMContentLoaded", function () {
     data.forEach((item) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td><input type="number" value="${item.id}" min="1"></td>
-        <td><input type="number" value="${item.value}" min="1" max="100"></td>
-        <td><button data-id="${item.id}">편집</button></td>
-      `;
+      <td><div>${item.id}</div></td>
+      <td><input type="number" value="${item.value}" min="1" max="100"></td>
+      <td><button data-id="${item.id}" class="delete-button">삭제</button></td>
+    `;
       valueList.appendChild(row);
     });
   }
+
+  // 값 삭제 버튼 클릭 시 이벤트 핸들러
+  valueList.addEventListener("click", function (event) {
+    if (event.target.classList.contains("delete-button")) {
+      const id = parseInt(event.target.getAttribute("data-id"), 10);
+      data = data.filter((item) => item.id !== id);
+      updateValueList();
+      drawChart();
+    }
+  });
 
   // Apply 버튼 클릭 시 이벤트 핸들러
   document.getElementById("applyButton").addEventListener("click", function () {
@@ -75,12 +85,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     inputElements.forEach((input) => {
       const id = parseInt(
-        input.closest("tr").querySelector("td:first-child input").value,
+        input.closest("tr").querySelector("td:first-child div").textContent,
         10
       );
-      const value = parseFloat(
-        input.closest("tr").querySelector("td:nth-child(2) input").value
-      );
+      const value = parseFloat(input.value);
 
       if (isNaN(value) || value < 1 || value > 100) {
         alert("유효한 VALUE를 올바르게 입력하세요 (1에서 100 사이).");
@@ -124,6 +132,32 @@ document.addEventListener("DOMContentLoaded", function () {
         drawChart();
       }
     }
+  });
+
+  // Add 버튼 클릭 시 이벤트 핸들러
+  document.getElementById("addButton").addEventListener("click", function () {
+    const newId = parseInt(newIdInput.value, 10);
+    const newValue = parseFloat(newValueInput.value);
+
+    if (
+      isNaN(newId) ||
+      isNaN(newValue) ||
+      newId < 1 ||
+      newId > 100 ||
+      newValue < 1 ||
+      newValue > 100
+    ) {
+      alert("유효한 ID와 VALUE를 올바르게 입력하세요.");
+      return;
+    }
+
+    // 기존 데이터에 새로운 항목 추가
+    data.push({ id: newId, value: newValue });
+    data.sort((a, b) => a.id - b.id);
+    newIdInput.value = "";
+    newValueInput.value = "";
+    updateValueList();
+    drawChart();
   });
 
   // 초기화
