@@ -5,8 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const newIdInput = document.getElementById("newId");
   const newValueInput = document.getElementById("newValue");
 
-  //  ID와 값을 포함한 배열 - 여기에 추가 데이터 추가
-  let data = [];
+  // 예시 데이터 - ID와 값을 포함한 배열
+  let data = [
+    { id: 0, value: 100 },
+    { id: 2, value: 50 },
+  ];
 
   // 그래프 그리기 함수
   function drawChart() {
@@ -16,18 +19,39 @@ document.addEventListener("DOMContentLoaded", function () {
     const xOffset = 40;
     const yOffset = 20;
 
-    for (let i = 0; i < data.length; i++) {
-      const value = data[i].value;
-      const x = i * (barWidth + xOffset) + xOffset;
-      const height = (value / 10) * 20;
+    const maxValue = 100; // 최대 값
+
+    // x축와 y축 교차점을 그리기
+    chartContext.strokeStyle = "black";
+    chartContext.beginPath();
+    chartContext.moveTo(xOffset, 0); // y축에서 시작
+    chartContext.lineTo(xOffset, chartCanvas.height - yOffset); // y축 끝까지
+    chartContext.lineTo(chartCanvas.width, chartCanvas.height - yOffset); // x축 끝까지
+    chartContext.stroke();
+
+    // y축에 100 표현
+    chartContext.fillStyle = "black";
+    chartContext.fillText("100", xOffset - 30, 25); // xOffset 왼쪽에 위치
+
+    data.forEach((item, index) => {
+      const value = item.value;
+
+      // 첫 번째 막대의 x 위치를 xOffset에서 좀만 더 오른쪽으로 옮김
+      const x = index * (barWidth + xOffset) + xOffset + 10;
+
+      const height = (value / maxValue) * (chartCanvas.height - yOffset * 2);
       const y = chartCanvas.height - height - yOffset;
 
       chartContext.fillStyle = "blue";
       chartContext.fillRect(x, y, barWidth, height);
 
       chartContext.fillStyle = "black";
-      chartContext.fillText(value, x + barWidth / 2 - 5, y - 5);
-    }
+      chartContext.fillText(
+        item.id,
+        x + barWidth / 2 - 5,
+        chartCanvas.height - 5
+      );
+    });
   }
 
   // 표 업데이트 함수
@@ -36,8 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
     data.forEach((item) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${item.id}</td>
-        <td><input type="number" value="${item.value}"></td>
+        <td><input type="number" value="${item.id}" min="1"></td>
+        <td><input type="number" value="${item.value}" min="1" max="100"></td>
         <td><button data-id="${item.id}">편집</button></td>
       `;
       valueList.appendChild(row);
@@ -48,9 +72,30 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("applyButton").addEventListener("click", function () {
     const inputElements = valueList.querySelectorAll("input");
     inputElements.forEach((input, index) => {
-      data[index].value = parseFloat(input.value);
+      const id = parseInt(
+        input.parentElement.nextElementSibling
+          .querySelector("button")
+          .getAttribute("data-id"),
+        10
+      );
+      const value = parseFloat(
+        input.parentElement.nextElementSibling.nextElementSibling.querySelector(
+          "input"
+        ).value
+      );
+
+      if (isNaN(value) || value < 1 || value > 100) {
+        alert("유효한 VALUE를 올바르게 입력하세요 (1에서 100 사이).");
+        return;
+      }
+
+      data.find((item) => item.id === id).id = parseInt(input.value, 10);
+      data[index].value = value;
     });
+
+    data.sort((a, b) => a.id - b.id);
     drawChart();
+    updateValueList();
   });
 
   // Add 버튼 클릭 시 이벤트 핸들러
@@ -58,17 +103,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const newId = parseInt(newIdInput.value, 10);
     const newValue = parseFloat(newValueInput.value);
 
-    if (isNaN(newId) || isNaN(newValue)) {
-      alert("ID와 VALUE를 올바르게 입력하세요.");
-      return;
-    }
-
-    if (data.some((item) => item.id === newId)) {
-      alert("중복된 ID가 있습니다. 다른 ID를 사용하세요.");
+    if (
+      isNaN(newId) ||
+      isNaN(newValue) ||
+      newId < 1 ||
+      newId > 100 ||
+      newValue < 1 || // Ensure that the value is within the valid range
+      newValue > 100
+    ) {
+      alert("유효한 ID와 VALUE를 올바르게 입력하세요.");
       return;
     }
 
     data.push({ id: newId, value: newValue });
+    data.sort((a, b) => a.id - b.id);
     newIdInput.value = "";
     newValueInput.value = "";
     updateValueList();
@@ -80,15 +128,22 @@ document.addEventListener("DOMContentLoaded", function () {
     if (event.target.tagName === "BUTTON") {
       const id = parseInt(event.target.getAttribute("data-id"), 10);
       const inputElement =
-        event.target.parentElement.previousElementSibling.querySelector(
+        event.target.parentElement.previousElementSibling.previousElementSibling.querySelector(
           "input"
         );
       if (inputElement) {
-        const value = parseFloat(inputElement.value);
-        if (!isNaN(value)) {
-          data.find((item) => item.id === id).value = value;
-          drawChart();
+        const value = parseFloat(
+          inputElement.parentElement.nextElementSibling.querySelector("input")
+            .value
+        );
+
+        if (isNaN(value) || value < 1 || value > 100) {
+          alert("유효한 VALUE를 올바르게 입력하세요 (1에서 100 사이).");
+          return;
         }
+
+        data.find((item) => item.id === id).value = value;
+        drawChart();
       }
     }
   });
