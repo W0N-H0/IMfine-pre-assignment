@@ -139,6 +139,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const newId = parseInt(newIdInput.value, 10);
     const newValue = parseFloat(newValueInput.value);
 
+    // ID 중복 확인
+    if (data.some((item) => item.id === newId)) {
+      alert("동일한 ID 값이 이미 존재합니다.");
+      return;
+    }
+
     if (
       isNaN(newId) ||
       isNaN(newValue) ||
@@ -163,4 +169,40 @@ document.addEventListener("DOMContentLoaded", function () {
   // 초기화
   updateValueList();
   drawChart();
+
+  // 4. 값 고급 편집
+  const advancedEditSection = document.getElementById("advancedEdit");
+
+  // JSON 문자열로 데이터 표시하는 함수
+  function displayDataAsJson() {
+    const div = document.createElement("div");
+    div.textContent = JSON.stringify(data, null, 2);
+    div.setAttribute("contenteditable", true); // contenteditable 속성 추가
+    advancedEditSection.innerHTML = "";
+    advancedEditSection.appendChild(div);
+
+    // Apply 버튼 추가
+    const applyButton = document.createElement("button");
+    applyButton.textContent = "Apply";
+    applyButton.addEventListener("click", function () {
+      try {
+        // JSON 파싱 및 업데이트
+        const newData = JSON.parse(div.textContent);
+        if (Array.isArray(newData)) {
+          data = newData; // 데이터를 업데이트
+          updateValueList(); // 표 업데이트
+          drawChart(); // 그래프 업데이트
+          displayDataAsJson(); // 수정된 JSON 데이터 표시
+        } else {
+          alert("유효한 JSON 데이터 형식이 아닙니다.");
+        }
+      } catch (error) {
+        alert("유효한 JSON 데이터 형식이 아닙니다.");
+      }
+    });
+    advancedEditSection.appendChild(applyButton);
+  }
+
+  // 초기화 시 JSON 데이터 표시
+  displayDataAsJson();
 });
