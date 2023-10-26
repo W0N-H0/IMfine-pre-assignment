@@ -6,5 +6,39 @@
     <link rel="stylesheet" href="index.css" />
     <script async src="/main.js"></script>
   </head>
-  <body></body>
+  <body>
+    <header>아이엠파인 SD팀 지원자 이원호</header>
+    <section>
+      <h1>1. 그래프</h1>
+      <canvas id="chartCanvas" width="400" height="300"></canvas>
+    </section>
+    <section>
+      <h1>2. 값 편집</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>값</th>
+            <th>편집</th>
+          </tr>
+        </thead>
+        <tbody id="valueList">
+          <!-- 표 형식으로 기존 추가된 값을 여기에 추가할 것임 -->
+        </tbody>
+      </table>
+      <button id="applyButton">Apply</button>
+    </section>
+    <section>
+      <h1>3. 값 추가</h1>
+      <div>
+        <input type="text" id="newId" placeholder="ID" />
+        <input type="text" id="newValue" placeholder="VALUE" />
+        <button id="addButton">Add</button>
+      </div>
+    </section>
+    <section>
+      <h1>4. 값 고급 편집</h1>
+      <div>고급 편집 공간</div>
+    </section>
+  </body>
 </html>
