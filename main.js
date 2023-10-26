@@ -71,17 +71,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // Apply 버튼 클릭 시 이벤트 핸들러
   document.getElementById("applyButton").addEventListener("click", function () {
     const inputElements = valueList.querySelectorAll("input");
-    inputElements.forEach((input, index) => {
+    const newData = data.map((item) => ({ ...item })); // 기존 데이터 배열을 복사합니다.
+
+    inputElements.forEach((input) => {
       const id = parseInt(
-        input.parentElement.nextElementSibling
-          .querySelector("button")
-          .getAttribute("data-id"),
+        input.closest("tr").querySelector("td:first-child input").value,
         10
       );
       const value = parseFloat(
-        input.parentElement.nextElementSibling.nextElementSibling.querySelector(
-          "input"
-        ).value
+        input.closest("tr").querySelector("td:nth-child(2) input").value
       );
 
       if (isNaN(value) || value < 1 || value > 100) {
@@ -89,38 +87,18 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      data.find((item) => item.id === id).id = parseInt(input.value, 10);
-      data[index].value = value;
+      // 새 배열에 수정된 값을 업데이트
+      const index = newData.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        newData[index].value = value;
+      }
     });
 
-    data.sort((a, b) => a.id - b.id);
-    drawChart();
-    updateValueList();
-  });
-
-  // Add 버튼 클릭 시 이벤트 핸들러
-  document.getElementById("addButton").addEventListener("click", function () {
-    const newId = parseInt(newIdInput.value, 10);
-    const newValue = parseFloat(newValueInput.value);
-
-    if (
-      isNaN(newId) ||
-      isNaN(newValue) ||
-      newId < 1 ||
-      newId > 100 ||
-      newValue < 1 || // Ensure that the value is within the valid range
-      newValue > 100
-    ) {
-      alert("유효한 ID와 VALUE를 올바르게 입력하세요.");
-      return;
-    }
-
-    data.push({ id: newId, value: newValue });
-    data.sort((a, b) => a.id - b.id);
-    newIdInput.value = "";
-    newValueInput.value = "";
-    updateValueList();
-    drawChart();
+    newData.sort((a, b) => a.id - b.id);
+    data = newData; // 기존 데이터 배열을 새로운 배열로 업데이트
+    console.log(data);
+    updateValueList(); // 표 업데이트
+    drawChart(); // 그래프 업데이트
   });
 
   // 값 편집 버튼 클릭 시 이벤트 핸들러
