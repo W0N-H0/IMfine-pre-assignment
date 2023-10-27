@@ -7,38 +7,47 @@
     <script async src="/main.js"></script>
   </head>
   <body>
-    <header>아이엠파인 SD팀 지원자 이원호</header>
-    <section>
-      <h1>1. 그래프</h1>
-      <canvas id="chartCanvas" width="400" height="300"></canvas>
+    <header class="header">아이엠파인 SD팀 지원자 이원호</header>
+    <section class="graph-section">
+      <h1 class="graph-section__title">1. 그래프</h1>
+      <canvas
+        class="graph-section__chart-canvas"
+        width="900"
+        height="300"
+      ></canvas>
     </section>
-    <section>
-      <h1>2. 값 편집</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>값</th>
-            <th></th>
+    <section class="edit-section">
+      <h1 class="edit-section">2. 값 편집</h1>
+      <table class="table">
+        <thead class="table__header">
+          <tr class="table__row">
+            <th class="table__cell table__cell--id">ID</th>
+            <th class="table__cell table__cell--value">값</th>
+            <th class="table__cell table__cell--id-null"></th>
           </tr>
         </thead>
-        <tbody id="valueList">
+        <tbody class="table__body">
           <!-- 표 형식으로 기존 추가된 값을 여기에 추가할 것임 -->
         </tbody>
       </table>
-      <button id="applyButton">Apply</button>
-    </section>
-    <section>
-      <h1>3. 값 추가</h1>
-      <div>
-        <input type="text" id="newId" placeholder="ID" />
-        <input type="text" id="newValue" placeholder="VALUE" />
-        <button id="addButton">Add</button>
+      <div class="edit-section__button-container">
+        <button class="button--apply">Apply</button>
       </div>
     </section>
-    <section>
-      <h1>4. 값 고급 편집</h1>
-      <div id="advancedEdit"></div>
+    <section class="add-section">
+      <h1 class="add-section__title">3. 값 추가</h1>
+      <div class="add-section__content">
+        <input type="text" class="input input--id" placeholder="ID" />
+        <input type="text" class="input input--value" placeholder="VALUE" />
+        <button class="button--add">Add</button>
+      </div>
+    </section>
+    <section class="advancedEdit-section">
+      <h1 class="advancedEdit-section__title">4. 값 고급 편집</h1>
+      <div class="advancedEdit-section__content"></div>
+      <div class="advancedEdit-section__button-container">
+        <button class="button--apply button--advanced-apply">Apply</button>
+      </div>
     </section>
   </body>
 </html>
