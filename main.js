@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 예시 데이터 - ID와 값을 포함한 배열
   let data = [
-    { id: 1, value: 100 },
-    { id: 2, value: 50 },
+    { id: 0, value: 100 },
+    { id: 1, value: 50 },
   ];
 
   // 그래프 그리기 함수
@@ -29,9 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
     chartContext.lineTo(chartCanvas.width, chartCanvas.height - yOffset); // x축 끝까지
     chartContext.stroke();
 
-    // y축에 100 표현
+    // y축에 0, 100 표현
     chartContext.fillStyle = "black";
     chartContext.fillText("100", xOffset - 30, 25); // xOffset 왼쪽에 위치
+    chartContext.fillText("0", xOffset - 20, 275); // xOffset 왼쪽에 위치
 
     data.forEach((item, index) => {
       const value = item.value;
@@ -123,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .value
         );
 
-        if (isNaN(value) || value < 1 || value > 100) {
+        if (isNaN(value) || value < 0 || value > 100) {
           alert("유효한 VALUE를 올바르게 입력하세요 (1에서 100 사이).");
           return;
         }
@@ -148,9 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (
       isNaN(newId) ||
       isNaN(newValue) ||
-      newId < 1 ||
+      newId < 0 ||
       newId > 100 ||
-      newValue < 1 ||
+      newValue < 0 ||
       newValue > 100
     ) {
       alert("유효한 ID와 VALUE를 올바르게 입력하세요.");
