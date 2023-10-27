@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       data = data.filter((item) => item.id !== id);
       updateValueList();
       drawChart();
+      displayDataAsJson();
     }
   });
 
@@ -108,9 +109,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       newData.sort((a, b) => a.id - b.id);
       data = newData; // 기존 데이터 배열을 새로운 배열로 업데이트
-      console.log(data);
       updateValueList(); // 표 업데이트
       drawChart(); // 그래프 업데이트
+      displayDataAsJson(); // JSON 데이터 업데이트
     });
 
   // 값 편집 버튼 클릭 시 이벤트 핸들러
@@ -134,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         data.find((item) => item.id === id).value = value;
         drawChart();
+        displayDataAsJson();
       }
     }
   });
@@ -168,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
     newValueInput.value = "";
     updateValueList();
     drawChart();
+    displayDataAsJson();
   });
 
   // 초기화
@@ -232,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
           data = newData; // 데이터를 업데이트
           updateValueList(); // 표 업데이트
           drawChart(); // 그래프 업데이트
-          displayDataAsJson(); // 수정된 JSON 데이터 표시
+          displayDataAsJson(); // JSON 데이터 업데이트
         } else {
           alert("유효한 JSON 데이터 형식이 아닙니다.");
 
@@ -253,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
   // 초기화 시 JSON 데이터 표시
   displayDataAsJson();
 });
