@@ -72,10 +72,14 @@ document.addEventListener("DOMContentLoaded", function () {
   valueList.addEventListener("click", function (event) {
     if (event.target.classList.contains("button--delete")) {
       const id = parseInt(event.target.getAttribute("data-id"), 10);
-      data = data.filter((item) => item.id !== id);
-      updateValueList();
-      drawChart();
-      displayDataAsJson();
+      // 확인 메시지 표시
+      const isConfirmed = confirm("정말 삭제하시겠습니까?");
+      if (isConfirmed) {
+        data = data.filter((item) => item.id !== id);
+        updateValueList();
+        drawChart();
+        displayDataAsJson();
+      }
     }
   });
 
