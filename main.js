@@ -114,32 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
       displayDataAsJson(); // JSON 데이터 업데이트
     });
 
-  // 값 편집 버튼 클릭 시 이벤트 핸들러
-  valueList.addEventListener("click", function (event) {
-    if (event.target.tagName === "BUTTON") {
-      const id = parseInt(event.target.getAttribute("data-id"), 10);
-      const inputElement =
-        event.target.parentElement.previousElementSibling.previousElementSibling.querySelector(
-          "input"
-        );
-      if (inputElement) {
-        const value = parseFloat(
-          inputElement.parentElement.nextElementSibling.querySelector("input")
-            .value
-        );
-
-        if (isNaN(value) || value < 0 || value > 100) {
-          alert("유효한 VALUE를 올바르게 입력하세요 (1에서 100 사이).");
-          return;
-        }
-
-        data.find((item) => item.id === id).value = value;
-        drawChart();
-        displayDataAsJson();
-      }
-    }
-  });
-
   // Add 버튼 클릭 시 이벤트 핸들러
   document.querySelector(".button--add").addEventListener("click", function () {
     const newId = parseInt(newIdInput.value, 10);
