@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const value = parseFloat(input.value);
 
         if (isNaN(value) || value < 1 || value > 100) {
-          alert("유효한 VALUE를 올바르게 입력하세요 (1에서 100 사이).");
+          alert("유효한 VALUE를 입력하세요. (1에서 100 사이)");
           return;
         }
 
@@ -112,10 +112,17 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       newData.sort((a, b) => a.id - b.id);
-      data = newData; // 기존 데이터 배열을 새로운 배열로 업데이트
-      updateValueList(); // 표 업데이트
-      drawChart(); // 그래프 업데이트
-      displayDataAsJson(); // JSON 데이터 업데이트
+
+      // 확인 메시지 표시
+      const isConfirmed = confirm(
+        "편집한 값이 일괄적으로 수정됩니다. 수정하시겠습니까?"
+      );
+      if (isConfirmed) {
+        data = newData; // 기존 데이터 배열을 새로운 배열로 업데이트
+        updateValueList(); // 표 업데이트
+        drawChart(); // 그래프 업데이트
+        displayDataAsJson(); // JSON 데이터 업데이트
+      }
     });
 
   // Add 버튼 클릭 시 이벤트 핸들러
@@ -168,13 +175,13 @@ document.addEventListener("DOMContentLoaded", function () {
     advancedEditSection.innerHTML = "";
     advancedEditSection.appendChild(div);
 
+    // 이전 데이터를 저장하는 함수
+    let previousData = [...data]; // 이전 데이터를 저장
+
     // Apply 버튼 클릭 시 이벤트 핸들러
     const applyButton = document.querySelector(".button--advanced-apply");
     applyButton.addEventListener("click", function () {
       try {
-        // 이전 데이터 저장
-        previousData = [...data];
-
         // JSON 파싱 및 업데이트
         const newData = JSON.parse(div.textContent);
         if (Array.isArray(newData)) {
