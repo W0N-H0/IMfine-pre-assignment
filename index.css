@@ -1,22 +1,21 @@
-/* index.css */
-
 * {
   box-sizing: border-box;
 }
 
 /* 전체 body 스타일링 */
 body {
-  font-family: Arial, sans-sesection__contentrif;
+  font-family: Arial, sans-serif;
   margin: auto;
   padding: 0;
   width: 50%;
 }
 
+/* 섹션에 상단 마진 추가 */
 section {
   margin-top: 50px;
 }
 
-/* Header를 우측 상단에 위치시킴 */
+/* Header를 오른쪽 상단에 위치시킴 */
 .header {
   display: flex;
   justify-content: flex-end;
@@ -31,6 +30,7 @@ section {
   margin: 20px 0 10px 0;
 }
 
+/* 테이블과 관련된 요소들의 경계 설정 */
 .table,
 .table-header__cell,
 .table-body__row,
@@ -39,42 +39,50 @@ section {
   border: 1px solid #ccc;
 }
 
+/* 테이블 헤더와 본문의 셀 스타일링 */
 .table-header__cell,
 .table-body__cell {
   padding: 8px;
   text-align: center;
 }
 
+/* 테이블 셀 스타일링 */
 .table__cell {
-  padding: 10px;
-  background-color: rgb(233, 233, 233);
+  padding: 10px; /* 패딩 추가 */
+  background-color: rgb(233, 233, 233); /* 배경색 설정 */
 }
 
+/* 테이블 본문의 값 셀 스타일링 */
 .table-body__cell--value {
   width: auto;
   > input {
     width: 50%;
   }
 }
+
+/* 삭제 버튼 셀 스타일링 */
 .table-body__cell--delete {
   width: 10%;
 }
 
+/* 삭제 버튼 스타일링 */
 .button--delete {
   background-color: rgba(236, 56, 56, 0.854);
 }
 
-/* 입력 필드 및 버튼 스타일링 */
+/* 입력 필드와 버튼 스타일링 */
 input,
 button {
   padding: 10px;
   box-sizing: border-box;
 }
 
+/* 입력 필드 스타일링 */
 input {
   margin-right: 10px;
 }
 
+/* 버튼 스타일링 */
 button {
   background-color: #007bff;
   color: #fff;
@@ -83,46 +91,56 @@ button {
   border-radius: 5px;
 }
 
+/* 버튼 호버(마우스 오버) 스타일링 */
 button:hover {
   background-color: #0056b3;
 }
 
+/* 적용 버튼 스타일링 */
 .button--apply {
   padding: 10px 30px 10px 30px;
 }
 
+/* 추가 섹션 스타일링 */
 .add-section__content {
   display: flex;
   justify-content: space-between;
 }
 
+/* ID 입력 필드 스타일링 */
 .input--id {
   flex: 1 1 0;
 }
+
+/* 값 입력 필드 스타일링 */
 .input--value {
   flex: 5 1 0;
 }
-
+/* 추가(Add) 버튼 스타일링 */
 .button--add {
   flex: 1 1 0;
 }
 
+/* 고급 편집 섹션 스타일링 */
 .advancedEdit-section__content {
   background-color: rgb(233, 233, 233);
   border: 1px solid black;
   padding: 10px;
 }
 
+/* 고급 편집 섹션 내 버튼 컨테이너 스타일링 */
 .advancedEdit-section__button-container {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
+/* 고급 적용 버튼 스타일링 */
 .button--advanced-apply {
   margin: 10px 0;
 }
 
+/* 편집 섹션 내 버튼 컨테이너 스타일링 */
 .edit-section__button-container {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
