@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 테이블에서 데이터 업데이트하는 함수
+  // 테이블에서 데이터 업데이트(편집)하는 함수
   function updateDataFromTable() {
     const inputElements = valueList.querySelectorAll("input");
     const newData = data.map((item) => ({ ...item }));
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       const value = parseFloat(input.value);
 
-      if (isNaN(value) || value < 1 || value > 100) {
-        alert("유효한 VALUE를 입력하세요. (1에서 100 사이)");
+      if (isNaN(value) || value < 0 || value > 100) {
+        alert("유효한 VALUE를 입력하세요. (0 ~ 100)");
         return;
       }
 
